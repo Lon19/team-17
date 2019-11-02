@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using MeterChange;
+using UnityEngine.UI;
 
-public class hit : MonoBehaviour
+public class Hit : MonoBehaviour
 {
-   // private MeterChange meter;
+    private MeterChange meter;
+    private StrikesLeft strikes;
+    private Score score;
 
     // Start is called before the first frame update
     void Start()
@@ -25,10 +27,18 @@ public class hit : MonoBehaviour
 
             else if (touch.phase == TouchPhase.Ended)
             {
-              //  if (meter.checkIfBallIsHit())
-              //  {
-              //      hitBall();
-              //  }
+                if (meter.checkIfBallIsHit())
+                {
+                    score.setScore();
+                }
+                else
+                {
+                    strikes.setStrikesLeft();
+                    if (strikes.getStrikesLeft() == 0)
+                    {
+                        // End game
+                    }
+                }
             }
         }
     }

@@ -19,6 +19,12 @@ public class HostGame : NetworkManager
     [SerializeField]
     private Text status;
 
+    [SerializeField]
+    private GameObject roomPrefab;
+
+    [SerializeField]
+    private Transform scrollView;
+
     public void Start()
     {
         netManager = NetworkManager.singleton;
@@ -45,6 +51,7 @@ public class HostGame : NetworkManager
     }
     public void ReFreshRoomList()
     {
+        ClearRoomList();
         netManager.matchMaker.ListMatches(0, 20, "", true, 0, 0, OnMatchList);
         status.text = "Loading...";
     }
@@ -53,7 +60,36 @@ public class HostGame : NetworkManager
     {
         if (LogFilter.logDebug) { Debug.LogFormat("NetworkManager OnMatchList Success:{0}, ExtendedInfo:{1}, matchList.Count:{2}", success, extendedInfo, matchList.Count); }
         matches = matchList;
-        Debug.Log("");
+        status.text = "";
+        if (matches == null)
+        {
+            status.text = "Couldn't get room List";
+            return;
+        }
+        ClearRoomList();
+        foreach (MatchInfoSnapshot match in matches)
+        {
+            GameObject roomListItemGo = Instantiate(roomPrefab);
+            roomListItemGo.transform.SetParent(scrollView);
+
+            RoomList newRoomlist = roomListItemGo.GetComponent<RoomList>();
+            newRoomlist.setup(match);
+            roomList.Add(roomListItemGo);
+        }
+
+        if (matches.Count == 0)
+        {
+            status.text = "No rooms Available";
+        }
+    }
+
+    void ClearRoomList()
+    {
+        for (int i = 0; i < roomList.Count; i++)
+        {
+            Destroy(roomList[i]);
+        }
+        roomList.Clear();
     }
 
     public override void OnMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
@@ -61,5 +97,12 @@ public class HostGame : NetworkManager
         if (LogFilter.logDebug) { Debug.LogFormat("NetworkManager OnMatchCreate Success:{0}, ExtendedInfo:{1}, matchInfo:{2}", success, extendedInfo, matchInfo); }
         if (success)
             StartHost(matchInfo);
+    }
+
+    public override void OnMatchJoined(bool success, string extendedInfo, MatchInfo matchInfo)
+    {
+        if (LogFilter.logDebug) { Debug.LogFormat("NetworkManager OnMatchJoined Success:{0}, ExtendedInfo:{1}, matchInfo:{2}", success, extendedInfo, matchInfo); }
+        if (success)
+            StartClient(matchInfo);
     }
 }

@@ -5,10 +5,10 @@ using UnityEngine;
 public class CameraHandler : MonoBehaviour
 {
     private static readonly float speed = 5f;
-    private static readonly float lowerX = -12.5f;
-    private static readonly float upperX = 10.8f;
-    private static readonly float lowerY = -5.6f;
-    private static readonly float upperY = 5.5f;
+    private static readonly float lowerX = -18.8f;
+    private static readonly float upperX = 17.5f;
+    private static readonly float lowerY = -6.6f;
+    private static readonly float upperY = 6.5f;
 
 
     private Camera cam;
