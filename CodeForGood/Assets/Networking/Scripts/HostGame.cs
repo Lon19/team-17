@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Networking.Match;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class HostGame : NetworkManager
 {
     [SerializeField]
@@ -47,6 +47,7 @@ public class HostGame : NetworkManager
             Debug.Log("Creating Room: " + roomName + "Size" + roomSize);
 
             netManager.matchMaker.CreateMatch(roomName,roomSize,true,"","","",0,0,OnMatchCreate);
+            SceneManager.LoadScene(4);
         }
     }
     public void ReFreshRoomList()

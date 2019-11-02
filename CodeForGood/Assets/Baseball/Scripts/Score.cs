@@ -11,7 +11,6 @@ public class Score : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log(score);
         txt = gameObject.GetComponent<Text>();
         txt.text = score.ToString();
     }
@@ -26,5 +25,10 @@ public class Score : MonoBehaviour
     {
         score++;
         txt.text = score.ToString();
+    }
+
+    public int getScore()
+    {
+        return score;
     }
 }

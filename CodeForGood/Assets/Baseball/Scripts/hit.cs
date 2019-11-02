@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Hit : MonoBehaviour
 {
@@ -18,20 +19,23 @@ public class Hit : MonoBehaviour
     private GameObject scoreObject;
     public float difficulty = 0.1f;
     public int speed = 1;
+    public int highscore;
+    public int finalScore;
 
     // Start is called before the first frame update
     void Start()
     {
-
         meterObject = Instantiate(meter);
         meterObject.transform.SetParent(canvas);
-        meterObject.transform.Translate(115, 200, 0);
+        meterObject.transform.Translate(150, 450, 0);
         strikesObject = Instantiate(strikes);
         strikesObject.transform.SetParent(canvas);
-        strikesObject.transform.Translate(90, 365, 0);
+        strikesObject.transform.Translate(95, 465, 0);
         scoreObject = Instantiate(score);
         scoreObject.transform.SetParent(canvas);
-        scoreObject.transform.Translate(285, 365, 0);
+        scoreObject.transform.Translate(335, 465, 0);
+        meterObject.GetComponent<MeterChange>().checkIfBallIsHit(difficulty, speed);
+        highscore = PlayerPrefs.GetInt("highscore", highscore);
     }
 
     // Update is called once per frame
@@ -53,11 +57,19 @@ public class Hit : MonoBehaviour
                 strikesObject.GetComponent<StrikesLeft>().setStrikesLeft();
                 if (strikesObject.GetComponent<StrikesLeft>().getStrikesLeft() == 0)
                 {
-                    // End game
+                    finalScore = scoreObject.GetComponent<Score>().getScore();
+                    PlayerPrefs.SetInt("finalScore", finalScore);
+                    if (finalScore > highscore)
+                    {
+                        highscore = finalScore;
+                        PlayerPrefs.SetInt("highscore", highscore);
+                    }
+                    SceneManager.LoadScene(6);
                 }
             }
         }
 
+        /*
         foreach (Touch touch in Input.touches)
         {
             if (touch.phase == TouchPhase.Began)
@@ -81,6 +93,7 @@ public class Hit : MonoBehaviour
                 }
             }
         }
+        */
     }
 
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ClickBaseball : MonoBehaviour
 {
@@ -18,6 +19,6 @@ public class ClickBaseball : MonoBehaviour
 
     void OnMouseDown()
     {
-        Application.LoadLevel("baseballGame");
+        SceneManager.LoadScene(5);
     }
 }

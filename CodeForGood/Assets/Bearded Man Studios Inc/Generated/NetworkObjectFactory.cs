@@ -43,6 +43,10 @@ namespace BeardedManStudios.Forge.Networking.Generated
 						availableCallback = true;
 						obj = new TestNetworkObject(networker, id, frame);
 						break;
+					case ChatC4gManagerNetworkObject.IDENTITY:
+						availableCallback = true;
+						obj = new ChatC4gManagerNetworkObject(networker, id, frame);
+						break;
 				}
 
 				if (!availableCallback)

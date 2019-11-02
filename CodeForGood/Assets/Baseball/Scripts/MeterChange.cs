@@ -48,6 +48,7 @@ public class MeterChange : MonoBehaviour
         greenAreaRectTransform.localScale = new Vector3(difficulty, 1, 1);
         setSpeed(speed);
 
+        //calculates the edges of the green bar
         float edge = 0.5f - (difficulty/2);
 
         //calculates the true value zone
@@ -64,5 +65,10 @@ public class MeterChange : MonoBehaviour
     private void setSpeed(int speed)
     {
         this.speed = speed;
+    }
+
+    public void init(float difficulty, int speed)
+    {
+        checkIfBallIsHit(difficulty, speed);
     }
 }
